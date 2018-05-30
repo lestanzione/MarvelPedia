@@ -7,8 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
+import com.empire.android.marvelpedia.App;
 import com.empire.android.marvelpedia.R;
 import com.empire.android.marvelpedia.main.adapter.MainOptionsAdapter;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,7 +20,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
-    private MainContract.Presenter presenter;
+    @Inject
+    MainContract.Presenter presenter;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -35,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         setContentView(R.layout.activity_main);
 
         setUpUi();
-        setUpPresenter();
+        setUpInjector();
     }
 
     private void setUpUi() {
@@ -48,8 +52,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mainOptionsRecyclerView.setAdapter(new MainOptionsAdapter(this, mainOptionTexts));
     }
 
-    private void setUpPresenter() {
-        presenter = new MainPresenter();
+    private void setUpInjector() {
+        ((App) getApplicationContext())
+                .getApplicationComponent()
+                .inject(this);
+
         presenter.attachView(this);
     }
 
