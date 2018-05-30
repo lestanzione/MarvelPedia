@@ -10,14 +10,20 @@ import android.util.Log;
 import com.empire.android.marvelpedia.R;
 import com.empire.android.marvelpedia.main.adapter.MainOptionsAdapter;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity implements MainContract.View, MainOptionsAdapter.MainOptionListener {
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
     private MainContract.Presenter presenter;
 
-    private Toolbar toolbar;
-    private RecyclerView mainOptionsRecyclerView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.mainOptionsRecyclerView)
+    RecyclerView mainOptionsRecyclerView;
 
     private String[] mainOptionTexts = {
             "Characters"
@@ -33,8 +39,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     private void setUpUi() {
-        toolbar = findViewById(R.id.toolbar);
-        mainOptionsRecyclerView = findViewById(R.id.mainOptionsRecyclerView);
+        ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("MarvelPedia");

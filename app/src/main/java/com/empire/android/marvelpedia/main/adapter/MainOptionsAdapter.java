@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import com.empire.android.marvelpedia.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainOptionsAdapter extends RecyclerView.Adapter<MainOptionsAdapter.ViewHolder> {
 
     public interface MainOptionListener {
@@ -54,15 +57,18 @@ public class MainOptionsAdapter extends RecyclerView.Adapter<MainOptionsAdapter.
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        final RelativeLayout mainOptionItemRelativeLayout;
-        final TextView mainOptionItemTitleTextView;
-        final ImageView mainOptionItemImageView;
+        @BindView(R.id.mainOptionItemRelativeLayout)
+        RelativeLayout mainOptionItemRelativeLayout;
+
+        @BindView(R.id.mainOptionItemTextView)
+        TextView mainOptionItemTitleTextView;
+
+        @BindView(R.id.mainOptionItemImageView)
+        ImageView mainOptionItemImageView;
 
         ViewHolder(View view) {
             super(view);
-            mainOptionItemRelativeLayout = view.findViewById(R.id.mainOptionItemRelativeLayout);
-            mainOptionItemTitleTextView = view.findViewById(R.id.mainOptionItemTextView);
-            mainOptionItemImageView = view.findViewById(R.id.mainOptionItemImageView);
+            ButterKnife.bind(this, view);
         }
 
     }
