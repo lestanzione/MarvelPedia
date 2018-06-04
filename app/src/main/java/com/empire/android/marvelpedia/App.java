@@ -2,6 +2,10 @@ package com.empire.android.marvelpedia;
 
 import android.app.Application;
 
+import com.empire.android.marvelpedia.characterlist.CharacterListModule;
+import com.empire.android.marvelpedia.di.ApplicationComponent;
+import com.empire.android.marvelpedia.di.DaggerApplicationComponent;
+import com.empire.android.marvelpedia.di.NetworkModule;
 import com.empire.android.marvelpedia.main.MainModule;
 
 public class App extends Application {
@@ -11,7 +15,9 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         applicationComponent = DaggerApplicationComponent.builder()
+                .networkModule(new NetworkModule())
                 .mainModule(new MainModule())
+                .characterListModule(new CharacterListModule())
                 .build();
     }
 
