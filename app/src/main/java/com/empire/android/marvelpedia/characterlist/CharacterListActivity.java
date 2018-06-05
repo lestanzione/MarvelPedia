@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.empire.android.marvelpedia.App;
@@ -46,6 +47,9 @@ public class CharacterListActivity extends AppCompatActivity implements Characte
     @BindView(R.id.charactersRecyclerView)
     RecyclerView charactersRecyclerView;
 
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +86,12 @@ public class CharacterListActivity extends AppCompatActivity implements Characte
     @Override
     public void setPagesText(int currentPage, int totalPageNumber) {
         characterPageTextView.setText(currentPage + " " + "of" + " " + totalPageNumber);
+    }
+
+    @Override
+    public void setProgressBarVisible(boolean visible) {
+        if(visible) progressBar.setVisibility(View.VISIBLE);
+        else progressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override

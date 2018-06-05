@@ -1,6 +1,6 @@
 package com.empire.android.marvelpedia.di;
 
-import com.empire.android.marvelpedia.MarvelApi;
+import com.empire.android.marvelpedia.api.MarvelApi;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import javax.inject.Singleton;

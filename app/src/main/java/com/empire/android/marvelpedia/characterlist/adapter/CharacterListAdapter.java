@@ -54,12 +54,7 @@ public class CharacterListAdapter extends RecyclerView.Adapter<CharacterListAdap
         Picasso.with(context).load(imagePath)
                 .into(holder.characterItemPreviewImageView);
 
-        holder.characterItemRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onCharacterSelected(characterPosition);
-            }
-        });
+        holder.characterItemRelativeLayout.setOnClickListener(view -> listener.onCharacterSelected(characterPosition));
 
     }
 

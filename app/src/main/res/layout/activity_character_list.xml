@@ -81,6 +81,12 @@
             android:id="@+id/charactersRecyclerView"
             android:layout_below="@id/characterPagesRelativeLayout"/>
 
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:layout_centerInParent="true"/>
+
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

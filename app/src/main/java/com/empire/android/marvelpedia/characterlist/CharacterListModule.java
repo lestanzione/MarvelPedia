@@ -1,21 +1,27 @@
 package com.empire.android.marvelpedia.characterlist;
 
-import com.empire.android.marvelpedia.MarvelApi;
+import com.empire.android.marvelpedia.api.MarvelApi;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import retrofit2.Retrofit;
 
 @Module
 public class CharacterListModule {
 
     @Provides
     @Singleton
-    CharacterListContract.Presenter providesPresenter(MarvelApi marvelApi){
-        CharacterListPresenter presenter = new CharacterListPresenter(marvelApi);
+    CharacterListContract.Presenter providesPresenter(CharacterListContract.Repository repository){
+        CharacterListPresenter presenter = new CharacterListPresenter(repository);
         return presenter;
+    }
+
+    @Provides
+    @Singleton
+    CharacterListContract.Repository providesRepository(MarvelApi marvelApi){
+        CharacterListRepository repository = new CharacterListRepository(marvelApi);
+        return repository;
     }
 
 }

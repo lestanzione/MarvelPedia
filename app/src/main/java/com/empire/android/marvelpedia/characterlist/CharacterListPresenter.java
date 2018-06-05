@@ -1,11 +1,8 @@
 package com.empire.android.marvelpedia.characterlist;
 
-import com.empire.android.marvelpedia.MarvelApi;
 import com.empire.android.marvelpedia.data.Character;
-import com.empire.android.marvelpedia.util.Utils;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -17,7 +14,7 @@ import io.reactivex.schedulers.Schedulers;
 public class CharacterListPresenter implements CharacterListContract.Presenter {
 
     private CharacterListContract.View view;
-    private MarvelApi marvelApi;
+    private CharacterListContract.Repository repository;
 
     private List<Character> characterList;
     private int totalPages;
@@ -25,8 +22,8 @@ public class CharacterListPresenter implements CharacterListContract.Presenter {
     private int currentPage = 1;
     private boolean isRunning = false;
 
-    public CharacterListPresenter(MarvelApi marvelApi){
-        this.marvelApi = marvelApi;
+    public CharacterListPresenter(CharacterListContract.Repository repository){
+        this.repository = repository;
     }
 
     @Override
@@ -38,16 +35,12 @@ public class CharacterListPresenter implements CharacterListContract.Presenter {
     public void getCharacters() {
 
         isRunning = true;
-
-        int offset = getOffset(currentPage);
+        view.setProgressBarVisible(true);
 
         characterList = new ArrayList<>();
 
-        Date now = new Date();
-        String timestamp = String.valueOf(now.getTime());
-        String hash = Utils.generateHash(timestamp);
-
-        Observable<Character.JsonResponse> characters = marvelApi.getCharacters(MarvelApi.PUBLIC_KEY, timestamp, hash, offset);
+        int offset = getOffset(currentPage);
+        Observable<Character.JsonResponse> characters = repository.getCharacters(offset);
 
         characters
                 .subscribeOn(Schedulers.io())
@@ -73,6 +66,7 @@ public class CharacterListPresenter implements CharacterListContract.Presenter {
                     public void onError(Throwable e) {
                         System.out.println("onError: " + e);
                         isRunning = false;
+                        view.setProgressBarVisible(false);
                     }
 
                     @Override
@@ -82,6 +76,7 @@ public class CharacterListPresenter implements CharacterListContract.Presenter {
                         isRunning = false;
                         view.showList(characterList);
                         view.setPagesText(currentPage, totalPages);
+                        view.setProgressBarVisible(false);
                         handleButtonsState();
                     }
                 });
@@ -110,9 +105,7 @@ public class CharacterListPresenter implements CharacterListContract.Presenter {
     }
 
     private int getOffset(int page){
-
         return page * dataPerPage - dataPerPage;
-
     }
 
     private void handleButtonsState(){
