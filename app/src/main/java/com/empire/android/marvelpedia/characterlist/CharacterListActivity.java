@@ -1,15 +1,20 @@
 package com.empire.android.marvelpedia.characterlist;
 
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.empire.android.marvelpedia.App;
 import com.empire.android.marvelpedia.R;
@@ -61,6 +66,43 @@ public class CharacterListActivity extends AppCompatActivity implements Characte
 
         presenter.attachView(this);
         presenter.getCharacters();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_character_list, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.searchMenuItem);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                presenter.resetPageNumber();
+                presenter.setSearchQuery(query);
+                presenter.getCharacters();
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                presenter.resetPageNumber();
+                presenter.setSearchQuery(null);
+                presenter.getCharacters();
+
+                return false;
+            }
+        });
+
+        return true;
     }
 
     private void setUpUi() {

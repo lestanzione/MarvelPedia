@@ -22,10 +22,12 @@ public interface CharacterListContract {
         void nextPageButtonClicked();
         void previousPageButtonClicked();
         void characterClicked();
+        void resetPageNumber();
+        void setSearchQuery(String searchQuery);
     }
 
     interface Repository{
-        Observable<Character.JsonResponse> getCharacters(int offset);
+        Observable<Character.JsonResponse> getCharacters(int offset, String searchQuery);
     }
 
 }

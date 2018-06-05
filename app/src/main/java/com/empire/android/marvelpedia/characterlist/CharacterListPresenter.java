@@ -20,6 +20,7 @@ public class CharacterListPresenter implements CharacterListContract.Presenter {
     private int totalPages;
     private int dataPerPage = 10;
     private int currentPage = 1;
+    private String searchQuery;
     private boolean isRunning = false;
 
     public CharacterListPresenter(CharacterListContract.Repository repository){
@@ -40,7 +41,7 @@ public class CharacterListPresenter implements CharacterListContract.Presenter {
         characterList = new ArrayList<>();
 
         int offset = getOffset(currentPage);
-        Observable<Character.JsonResponse> characters = repository.getCharacters(offset);
+        Observable<Character.JsonResponse> characters = repository.getCharacters(offset, searchQuery);
 
         characters
                 .subscribeOn(Schedulers.io())
@@ -55,7 +56,7 @@ public class CharacterListPresenter implements CharacterListContract.Presenter {
                     public void onNext(Character.JsonResponse s) {
                         System.out.println("onNext: " + s);
 
-                        totalPages = (int) Math.ceil(s.getData().getTotal() / dataPerPage);
+                        totalPages = (int) Math.ceil(s.getData().getTotal() / Float.valueOf(dataPerPage));
                         characterList = s.getData().getCharacterList();
 
                         System.out.println("s.getTotal: " + s.getData().getTotal());
@@ -102,6 +103,16 @@ public class CharacterListPresenter implements CharacterListContract.Presenter {
     @Override
     public void characterClicked() {
 
+    }
+
+    @Override
+    public void resetPageNumber() {
+        currentPage = 1;
+    }
+
+    @Override
+    public void setSearchQuery(String searchQuery) {
+        this.searchQuery = searchQuery;
     }
 
     private int getOffset(int page){
