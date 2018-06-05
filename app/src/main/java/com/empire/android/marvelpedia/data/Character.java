@@ -12,6 +12,8 @@ public class Character {
     private String name;
     @SerializedName("description")
     private String description;
+    @SerializedName("thumbnail")
+    private Image image;
 
     public Character(){}
 
@@ -39,6 +41,14 @@ public class Character {
         this.description = description;
     }
 
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
     public class JsonResponse {
 
         @SerializedName("data")
@@ -52,8 +62,14 @@ public class Character {
 
     public class Data {
 
+        @SerializedName("total")
+        int total;
         @SerializedName("results")
         List<Character> characterList;
+
+        public int getTotal(){
+            return total;
+        }
 
         public List<Character> getCharacterList(){
             return characterList;

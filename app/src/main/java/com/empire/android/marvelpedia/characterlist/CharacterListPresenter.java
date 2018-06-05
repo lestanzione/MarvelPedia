@@ -9,13 +9,9 @@ import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class CharacterListPresenter implements CharacterListContract.Presenter {
@@ -23,7 +19,11 @@ public class CharacterListPresenter implements CharacterListContract.Presenter {
     private CharacterListContract.View view;
     private MarvelApi marvelApi;
 
-    List<Character> characterList;
+    private List<Character> characterList;
+    private int totalPages;
+    private int dataPerPage = 10;
+    private int currentPage = 1;
+    private boolean isRunning = false;
 
     public CharacterListPresenter(MarvelApi marvelApi){
         this.marvelApi = marvelApi;
@@ -37,13 +37,17 @@ public class CharacterListPresenter implements CharacterListContract.Presenter {
     @Override
     public void getCharacters() {
 
+        isRunning = true;
+
+        int offset = getOffset(currentPage);
+
         characterList = new ArrayList<>();
 
         Date now = new Date();
         String timestamp = String.valueOf(now.getTime());
         String hash = Utils.generateHash(timestamp);
 
-        Observable<Character.JsonResponse> characters = marvelApi.getCharacters(MarvelApi.PUBLIC_KEY, timestamp, hash);
+        Observable<Character.JsonResponse> characters = marvelApi.getCharacters(MarvelApi.PUBLIC_KEY, timestamp, hash, offset);
 
         characters
                 .subscribeOn(Schedulers.io())
@@ -57,26 +61,74 @@ public class CharacterListPresenter implements CharacterListContract.Presenter {
                     @Override
                     public void onNext(Character.JsonResponse s) {
                         System.out.println("onNext: " + s);
-                        System.out.println("getCharacterList: " + s.getData().getCharacterList());
-                        System.out.println("getCharacterList size: " + s.getData().getCharacterList().size());
-                        System.out.println("getCharacterList - 0 - name: " + s.getData().getCharacterList().get(0).getName());
 
+                        totalPages = (int) Math.ceil(s.getData().getTotal() / dataPerPage);
                         characterList = s.getData().getCharacterList();
 
+                        System.out.println("s.getTotal: " + s.getData().getTotal());
+                        System.out.println("dataPerPage: " + dataPerPage);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         System.out.println("onError: " + e);
+                        isRunning = false;
                     }
 
                     @Override
                     public void onComplete() {
                         System.out.println("onComplete");
+
+                        isRunning = false;
                         view.showList(characterList);
+                        view.setPagesText(currentPage, totalPages);
+                        handleButtonsState();
                     }
                 });
 
+    }
+
+    @Override
+    public void nextPageButtonClicked() {
+        if(!isRunning) {
+            currentPage++;
+            getCharacters();
+        }
+    }
+
+    @Override
+    public void previousPageButtonClicked() {
+        if(!isRunning) {
+            currentPage--;
+            getCharacters();
+        }
+    }
+
+    @Override
+    public void characterClicked() {
+
+    }
+
+    private int getOffset(int page){
+
+        return page * dataPerPage - dataPerPage;
+
+    }
+
+    private void handleButtonsState(){
+        if(currentPage == 1){
+            view.setPreviousButtonEnable(false);
+        }
+        else{
+            view.setPreviousButtonEnable(true);
+        }
+
+        if(currentPage == totalPages){
+            view.setNextButtonEnable(false);
+        }
+        else{
+            view.setNextButtonEnable(true);
+        }
     }
 
 }

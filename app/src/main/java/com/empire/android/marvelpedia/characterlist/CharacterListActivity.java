@@ -6,6 +6,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.empire.android.marvelpedia.App;
 import com.empire.android.marvelpedia.R;
@@ -19,6 +22,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class CharacterListActivity extends AppCompatActivity implements CharacterListContract.View, CharacterListAdapter.CharacterListener {
 
@@ -30,16 +34,26 @@ public class CharacterListActivity extends AppCompatActivity implements Characte
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    @BindView(R.id.characterPreviousPageButton)
+    Button previousPageButton;
+
+    @BindView(R.id.characterNextPageButton)
+    Button nextPageButton;
+
+    @BindView(R.id.characterPageTextView)
+    TextView characterPageTextView;
+
     @BindView(R.id.charactersRecyclerView)
     RecyclerView charactersRecyclerView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_character_list);
 
-        setUpUi();
         setUpInjector();
+        setUpUi();
 
         presenter.attachView(this);
         presenter.getCharacters();
@@ -52,6 +66,9 @@ public class CharacterListActivity extends AppCompatActivity implements Characte
         getSupportActionBar().setTitle("Characters");
 
         charactersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        previousPageButton.setOnClickListener(view -> presenter.previousPageButtonClicked());
+        nextPageButton.setOnClickListener(view -> presenter.nextPageButtonClicked());
     }
 
     private void setUpInjector() {
@@ -63,12 +80,28 @@ public class CharacterListActivity extends AppCompatActivity implements Characte
     }
 
     @Override
+    public void setPagesText(int currentPage, int totalPageNumber) {
+        characterPageTextView.setText(currentPage + " " + "of" + " " + totalPageNumber);
+    }
+
+    @Override
+    public void setPreviousButtonEnable(boolean enabled) {
+        previousPageButton.setEnabled(enabled);
+    }
+
+    @Override
+    public void setNextButtonEnable(boolean enabled) {
+        nextPageButton.setEnabled(enabled);
+    }
+
+    @Override
     public void showList(List<Character> characterList) {
-        charactersRecyclerView.setAdapter(new CharacterListAdapter(this, characterList));
+        charactersRecyclerView.setAdapter(new CharacterListAdapter(getApplicationContext(), this, characterList));
     }
 
     @Override
     public void onCharacterSelected(int position) {
 
     }
+
 }

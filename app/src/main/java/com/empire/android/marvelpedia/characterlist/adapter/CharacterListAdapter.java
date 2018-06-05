@@ -1,5 +1,6 @@
 package com.empire.android.marvelpedia.characterlist.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.empire.android.marvelpedia.R;
 import com.empire.android.marvelpedia.data.Character;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -22,10 +24,12 @@ public class CharacterListAdapter extends RecyclerView.Adapter<CharacterListAdap
         void onCharacterSelected(int position);
     }
 
+    private Context context;
     private CharacterListAdapter.CharacterListener listener;
     private List<Character> characterList;
 
-    public CharacterListAdapter(CharacterListAdapter.CharacterListener listener, List<Character> characterList){
+    public CharacterListAdapter(Context context, CharacterListAdapter.CharacterListener listener, List<Character> characterList){
+        this.context = context;
         this.listener = listener;
         this.characterList = characterList;
     }
@@ -44,6 +48,11 @@ public class CharacterListAdapter extends RecyclerView.Adapter<CharacterListAdap
 
         holder.characterItemNameTextView.setText(currentCharacter.getName());
         holder.characterItemDescription.setText(currentCharacter.getDescription());
+
+        String imagePath = currentCharacter.getImage().getPath() + "." + currentCharacter.getImage().getExtension();
+
+        Picasso.with(context).load(imagePath)
+                .into(holder.characterItemPreviewImageView);
 
         holder.characterItemRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override

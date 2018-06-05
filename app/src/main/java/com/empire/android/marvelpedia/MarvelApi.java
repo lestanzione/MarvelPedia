@@ -12,6 +12,6 @@ public interface MarvelApi {
     String PRIVATE_KEY = "6fad8353778938a3ac83c2bf6253248056be447b";
 
     @GET("characters")
-    Observable<Character.JsonResponse> getCharacters(@Query("apikey") String apikey, @Query("ts") String timestamp, @Query("hash") String hash);
+    Observable<Character.JsonResponse> getCharacters(@Query("apikey") String apikey, @Query("ts") String timestamp, @Query("hash") String hash, @Query("offset") int offset);
 
 }
