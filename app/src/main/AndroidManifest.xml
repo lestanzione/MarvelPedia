@@ -19,7 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".characterlist.CharacterListActivity"></activity>
+        <activity android:name=".characterlist.CharacterListActivity" />
+        <activity android:name=".character.CharacterActivity"></activity>
     </application>
 
 </manifest>

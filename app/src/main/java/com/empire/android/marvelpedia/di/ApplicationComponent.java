@@ -1,5 +1,7 @@
 package com.empire.android.marvelpedia.di;
 
+import com.empire.android.marvelpedia.character.CharacterActivity;
+import com.empire.android.marvelpedia.character.CharacterModule;
 import com.empire.android.marvelpedia.characterlist.CharacterListActivity;
 import com.empire.android.marvelpedia.characterlist.CharacterListModule;
 import com.empire.android.marvelpedia.main.MainActivity;
@@ -14,10 +16,12 @@ import dagger.Component;
         modules = {
                 NetworkModule.class,
                 MainModule.class,
-                CharacterListModule.class
+                CharacterListModule.class,
+                CharacterModule.class
         }
 )
 public interface ApplicationComponent {
     void inject(MainActivity activity);
     void inject(CharacterListActivity activity);
+    void inject(CharacterActivity activity);
 }

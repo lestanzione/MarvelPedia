@@ -101,11 +101,6 @@ public class CharacterListPresenter implements CharacterListContract.Presenter {
     }
 
     @Override
-    public void characterClicked() {
-
-    }
-
-    @Override
     public void resetPageNumber() {
         currentPage = 1;
     }

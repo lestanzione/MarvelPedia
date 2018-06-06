@@ -1,5 +1,6 @@
 package com.empire.android.marvelpedia.characterlist;
 
+import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.empire.android.marvelpedia.App;
+import com.empire.android.marvelpedia.Configs;
 import com.empire.android.marvelpedia.R;
+import com.empire.android.marvelpedia.character.CharacterActivity;
 import com.empire.android.marvelpedia.characterlist.adapter.CharacterListAdapter;
 import com.empire.android.marvelpedia.data.Character;
 import com.empire.android.marvelpedia.main.adapter.MainOptionsAdapter;
@@ -64,7 +68,6 @@ public class CharacterListActivity extends AppCompatActivity implements Characte
         setUpInjector();
         setUpUi();
 
-        presenter.attachView(this);
         presenter.getCharacters();
     }
 
@@ -152,8 +155,12 @@ public class CharacterListActivity extends AppCompatActivity implements Characte
     }
 
     @Override
-    public void onCharacterSelected(int position) {
+    public void onCharacterSelected(Character character) {
+        Log.d(TAG, "onCharacterSelected: name: " + character.getName());
 
+        Intent intent = new Intent(this, CharacterActivity.class);
+        intent.putExtra(Configs.ARG_SELECTED_CHARACTER, character.getId());
+        startActivity(intent);
     }
 
 }

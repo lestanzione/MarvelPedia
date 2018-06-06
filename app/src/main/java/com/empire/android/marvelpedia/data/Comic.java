@@ -4,20 +4,18 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Character {
+public class Comic {
 
     @SerializedName("id")
     private long id;
-    @SerializedName("name")
-    private String name;
+    @SerializedName(value="title", alternate={"name"})
+    private String title;
     @SerializedName("description")
     private String description;
-    @SerializedName("thumbnail")
-    private Image image;
-    @SerializedName("comics")
-    private ComicCollection comicCollection;
+    @SerializedName("resourceURI")
+    private String uri;
 
-    public Character(){}
+    public Comic(){}
 
     public long getId() {
         return id;
@@ -27,12 +25,12 @@ public class Character {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -43,20 +41,12 @@ public class Character {
         this.description = description;
     }
 
-    public Image getImage() {
-        return image;
+    public String getUri() {
+        return uri;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
-    }
-
-    public ComicCollection getComicCollection() {
-        return comicCollection;
-    }
-
-    public void setComicCollection(ComicCollection comicCollection) {
-        this.comicCollection = comicCollection;
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 
     public class JsonResponse {
@@ -75,16 +65,15 @@ public class Character {
         @SerializedName("total")
         int total;
         @SerializedName("results")
-        List<Character> characterList;
+        List<Comic> comicList;
 
         public int getTotal(){
             return total;
         }
 
-        public List<Character> getCharacterList(){
-            return characterList;
+        public List<Comic> getComicList(){
+            return comicList;
         }
 
     }
-
 }
