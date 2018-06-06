@@ -14,6 +14,8 @@ public class Comic {
     private String description;
     @SerializedName("resourceURI")
     private String uri;
+    @SerializedName("thumbnail")
+    private Image image;
 
     public Comic(){}
 
@@ -47,6 +49,14 @@ public class Comic {
 
     public void setUri(String uri) {
         this.uri = uri;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
     }
 
     public class JsonResponse {

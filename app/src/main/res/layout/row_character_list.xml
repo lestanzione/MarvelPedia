@@ -26,8 +26,8 @@
                 android:gravity="center_horizontal"/>
 
             <ImageView
-                android:layout_width="168dp"
-                android:layout_height="252dp"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
                 android:id="@+id/characterItemPreviewImageView"
                 android:layout_below="@id/characterItemNameTextView"
                 android:layout_marginTop="16dp"

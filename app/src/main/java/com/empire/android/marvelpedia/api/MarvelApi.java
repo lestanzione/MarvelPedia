@@ -1,6 +1,7 @@
 package com.empire.android.marvelpedia.api;
 
 import com.empire.android.marvelpedia.data.Character;
+import com.empire.android.marvelpedia.data.Comic;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -21,5 +22,11 @@ public interface MarvelApi {
                                                         @Query("apikey") String apikey,
                                                         @Query("ts") String timestamp,
                                                         @Query("hash") String hash);
+
+    @GET("characters/{characterId}/comics")
+    Observable<Comic.JsonResponse> getComicsByCharacterId(@Path("characterId") long characterId,
+                                                          @Query("apikey") String apikey,
+                                                          @Query("ts") String timestamp,
+                                                          @Query("hash") String hash);
 
 }

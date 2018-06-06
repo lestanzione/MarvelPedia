@@ -4,6 +4,7 @@ import com.empire.android.marvelpedia.character.CharacterActivity;
 import com.empire.android.marvelpedia.character.CharacterModule;
 import com.empire.android.marvelpedia.characterlist.CharacterListActivity;
 import com.empire.android.marvelpedia.characterlist.CharacterListModule;
+import com.empire.android.marvelpedia.comic.ComicModule;
 import com.empire.android.marvelpedia.main.MainActivity;
 import com.empire.android.marvelpedia.main.MainModule;
 
@@ -17,7 +18,8 @@ import dagger.Component;
                 NetworkModule.class,
                 MainModule.class,
                 CharacterListModule.class,
-                CharacterModule.class
+                CharacterModule.class,
+                ComicModule.class
         }
 )
 public interface ApplicationComponent {
