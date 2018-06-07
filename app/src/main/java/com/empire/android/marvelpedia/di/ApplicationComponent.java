@@ -7,6 +7,7 @@ import com.empire.android.marvelpedia.characterlist.CharacterListModule;
 import com.empire.android.marvelpedia.comic.ComicModule;
 import com.empire.android.marvelpedia.main.MainActivity;
 import com.empire.android.marvelpedia.main.MainModule;
+import com.empire.android.marvelpedia.serie.SerieModule;
 
 import javax.inject.Singleton;
 
@@ -19,7 +20,8 @@ import dagger.Component;
                 MainModule.class,
                 CharacterListModule.class,
                 CharacterModule.class,
-                ComicModule.class
+                ComicModule.class,
+                SerieModule.class
         }
 )
 public interface ApplicationComponent {

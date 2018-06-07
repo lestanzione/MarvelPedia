@@ -9,6 +9,7 @@ import com.empire.android.marvelpedia.di.ApplicationComponent;
 import com.empire.android.marvelpedia.di.DaggerApplicationComponent;
 import com.empire.android.marvelpedia.di.NetworkModule;
 import com.empire.android.marvelpedia.main.MainModule;
+import com.empire.android.marvelpedia.serie.SerieModule;
 
 public class App extends Application {
 
@@ -22,6 +23,7 @@ public class App extends Application {
                 .characterListModule(new CharacterListModule())
                 .characterModule(new CharacterModule())
                 .comicModule(new ComicModule())
+                .serieModule(new SerieModule())
                 .build();
     }
 

@@ -25,10 +25,14 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="match_parent"
@@ -98,6 +102,47 @@
             android:padding="8dp"
             android:elevation="6dp"/>
 
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/characterSeriesCardView"
+            android:layout_below="@id/characterComicsCardView"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="80dp"
+            app:cardElevation="5dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/characterSeriesRecyclerView"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="46dp"
+                    android:layout_marginEnd="8dp"/>
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/characterSerieLabelTextView"
+            android:text="Series"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:background="@drawable/bg_character_item_title"
+            android:layout_alignTop="@id/characterSeriesCardView"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:padding="8dp"
+            android:elevation="6dp"/>
+
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -105,5 +150,7 @@
             android:layout_centerInParent="true"/>
 
     </RelativeLayout>
+
+    </ScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

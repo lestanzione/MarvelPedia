@@ -13,7 +13,9 @@ import android.widget.TextView;
 import com.empire.android.marvelpedia.App;
 import com.empire.android.marvelpedia.R;
 import com.empire.android.marvelpedia.character.adapter.CharacterComicAdapter;
+import com.empire.android.marvelpedia.character.adapter.CharacterSerieAdapter;
 import com.empire.android.marvelpedia.data.Comic;
+import com.empire.android.marvelpedia.data.Serie;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -25,7 +27,7 @@ import butterknife.ButterKnife;
 
 import static com.empire.android.marvelpedia.Configs.ARG_SELECTED_CHARACTER;
 
-public class CharacterActivity extends AppCompatActivity implements CharacterContract.View, CharacterComicAdapter.CharacterComicListener {
+public class CharacterActivity extends AppCompatActivity implements CharacterContract.View, CharacterComicAdapter.CharacterComicListener, CharacterSerieAdapter.CharacterStoryListener {
 
     public static final String TAG = CharacterActivity.class.getSimpleName();
 
@@ -46,6 +48,9 @@ public class CharacterActivity extends AppCompatActivity implements CharacterCon
 
     @BindView(R.id.characterComicsRecyclerView)
     RecyclerView characterComicsRecyclerView;
+
+    @BindView(R.id.characterSeriesRecyclerView)
+    RecyclerView characterSeriesRecyclerView;
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
@@ -70,6 +75,7 @@ public class CharacterActivity extends AppCompatActivity implements CharacterCon
         getSupportActionBar().setTitle("Character");
 
         characterComicsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        characterSeriesRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
     }
 
     private void setUpInjector() {
@@ -107,7 +113,17 @@ public class CharacterActivity extends AppCompatActivity implements CharacterCon
     }
 
     @Override
+    public void showSeries(List<Serie> serieList) {
+        characterSeriesRecyclerView.setAdapter(new CharacterSerieAdapter(getApplicationContext(), this, serieList));
+    }
+
+    @Override
     public void onCharacterComicSelected(Comic comic) {
+
+    }
+
+    @Override
+    public void onCharacterStorySelected(Serie serie) {
 
     }
 }

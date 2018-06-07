@@ -16,6 +16,8 @@ public class Character {
     private Image image;
     @SerializedName("comics")
     private ComicCollection comicCollection;
+    @SerializedName("stories")
+    private SerieCollection serieCollection;
 
     public Character(){}
 
@@ -58,6 +60,15 @@ public class Character {
     public void setComicCollection(ComicCollection comicCollection) {
         this.comicCollection = comicCollection;
     }
+
+    public SerieCollection getSerieCollection() {
+        return serieCollection;
+    }
+
+    public void setSerieCollection(SerieCollection serieCollection) {
+        this.serieCollection = serieCollection;
+    }
+
 
     public class JsonResponse {
 

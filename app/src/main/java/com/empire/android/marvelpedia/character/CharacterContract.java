@@ -2,6 +2,7 @@ package com.empire.android.marvelpedia.character;
 
 import com.empire.android.marvelpedia.data.Character;
 import com.empire.android.marvelpedia.data.Comic;
+import com.empire.android.marvelpedia.data.Serie;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public interface CharacterContract {
         void setCharacterDescription(String description);
         void setCharacterImage(String imageUrl);
         void showComics(List<Comic> comicList);
+        void showSeries(List<Serie> serieList);
     }
 
     interface Presenter{
