@@ -1,5 +1,7 @@
 package com.empire.android.marvelpedia.character;
 
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -94,17 +96,20 @@ public class CharacterActivity extends AppCompatActivity implements CharacterCon
 
     @Override
     public void setCharacterName(String name) {
+        characterNameTextView.setBackgroundColor(Color.TRANSPARENT);
         characterNameTextView.setText(name);
     }
 
     @Override
     public void setCharacterDescription(String description) {
+        characterDescriptionTextView.setBackgroundColor(Color.TRANSPARENT);
         characterDescriptionTextView.setText(description);
     }
 
     @Override
     public void setCharacterImage(String imageUrl) {
-        Picasso.with(this).load(imageUrl).into(characterPreviewImageView);
+        Picasso.with(this).load(imageUrl).placeholder(ContextCompat.getDrawable(this, R.drawable.placeholder_character_item)).into(characterPreviewImageView);
+        characterPreviewImageView.setBackgroundColor(Color.TRANSPARENT);
     }
 
     @Override

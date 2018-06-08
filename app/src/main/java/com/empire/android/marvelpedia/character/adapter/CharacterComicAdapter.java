@@ -1,6 +1,7 @@
 package com.empire.android.marvelpedia.character.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +48,7 @@ public class CharacterComicAdapter extends RecyclerView.Adapter<CharacterComicAd
 
         String imagePath = currentComic.getImage().getPath() + "." + currentComic.getImage().getExtension();
 
-        Picasso.with(context).load(imagePath)
+        Picasso.with(context).load(imagePath).placeholder(ContextCompat.getDrawable(context, R.drawable.placeholder_character_item))
                 .into(holder.characterComicItemPreviewImageView);
 
         holder.characterComicRelativeLayout.setOnClickListener(view -> listener.onCharacterComicSelected(currentComic));
