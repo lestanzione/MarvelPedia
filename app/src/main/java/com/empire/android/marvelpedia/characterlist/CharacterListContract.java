@@ -21,7 +21,6 @@ public interface CharacterListContract {
         void getCharacters();
         void nextPageButtonClicked();
         void previousPageButtonClicked();
-        void characterClicked();
         void resetPageNumber();
         void setSearchQuery(String searchQuery);
     }

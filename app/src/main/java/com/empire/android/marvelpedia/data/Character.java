@@ -14,6 +14,10 @@ public class Character {
     private String description;
     @SerializedName("thumbnail")
     private Image image;
+    @SerializedName("comics")
+    private ComicCollection comicCollection;
+    @SerializedName("stories")
+    private SerieCollection serieCollection;
 
     public Character(){}
 
@@ -48,6 +52,23 @@ public class Character {
     public void setImage(Image image) {
         this.image = image;
     }
+
+    public ComicCollection getComicCollection() {
+        return comicCollection;
+    }
+
+    public void setComicCollection(ComicCollection comicCollection) {
+        this.comicCollection = comicCollection;
+    }
+
+    public SerieCollection getSerieCollection() {
+        return serieCollection;
+    }
+
+    public void setSerieCollection(SerieCollection serieCollection) {
+        this.serieCollection = serieCollection;
+    }
+
 
     public class JsonResponse {
 

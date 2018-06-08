@@ -26,29 +26,13 @@
                 android:gravity="center_horizontal"/>
 
             <ImageView
-                android:layout_width="168dp"
-                android:layout_height="252dp"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
                 android:id="@+id/characterItemPreviewImageView"
                 android:layout_below="@id/characterItemNameTextView"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:layout_centerHorizontal="true"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:id="@+id/characterItemDivider"
-                android:layout_below="@id/characterItemPreviewImageView"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/characterItemDescription"
-                android:text="Character Description"
-                android:layout_below="@id/characterItemDivider"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp"/>
 
         </RelativeLayout>
 

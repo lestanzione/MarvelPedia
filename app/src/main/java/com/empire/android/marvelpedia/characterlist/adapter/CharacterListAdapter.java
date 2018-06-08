@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 public class CharacterListAdapter extends RecyclerView.Adapter<CharacterListAdapter.ViewHolder> {
 
     public interface CharacterListener {
-        void onCharacterSelected(int position);
+        void onCharacterSelected(Character character);
     }
 
     private Context context;
@@ -47,14 +47,13 @@ public class CharacterListAdapter extends RecyclerView.Adapter<CharacterListAdap
         final int characterPosition = position;
 
         holder.characterItemNameTextView.setText(currentCharacter.getName());
-        holder.characterItemDescription.setText(currentCharacter.getDescription());
 
         String imagePath = currentCharacter.getImage().getPath() + "." + currentCharacter.getImage().getExtension();
 
         Picasso.with(context).load(imagePath)
                 .into(holder.characterItemPreviewImageView);
 
-        holder.characterItemRelativeLayout.setOnClickListener(view -> listener.onCharacterSelected(characterPosition));
+        holder.characterItemRelativeLayout.setOnClickListener(view -> listener.onCharacterSelected(currentCharacter));
 
     }
 
@@ -73,9 +72,6 @@ public class CharacterListAdapter extends RecyclerView.Adapter<CharacterListAdap
 
         @BindView(R.id.characterItemPreviewImageView)
         ImageView characterItemPreviewImageView;
-
-        @BindView(R.id.characterItemDescription)
-        TextView characterItemDescription;
 
         ViewHolder(View view) {
             super(view);
