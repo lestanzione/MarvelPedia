@@ -5,6 +5,7 @@ import android.app.Application;
 import com.empire.android.marvelpedia.character.CharacterModule;
 import com.empire.android.marvelpedia.characterlist.CharacterListModule;
 import com.empire.android.marvelpedia.comic.ComicModule;
+import com.empire.android.marvelpedia.comiclist.ComicListModule;
 import com.empire.android.marvelpedia.di.ApplicationComponent;
 import com.empire.android.marvelpedia.di.DaggerApplicationComponent;
 import com.empire.android.marvelpedia.di.NetworkModule;
@@ -24,6 +25,7 @@ public class App extends Application {
                 .characterModule(new CharacterModule())
                 .comicModule(new ComicModule())
                 .serieModule(new SerieModule())
+                .comicListModule(new ComicListModule())
                 .build();
     }
 

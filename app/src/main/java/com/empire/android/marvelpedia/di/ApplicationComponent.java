@@ -5,6 +5,8 @@ import com.empire.android.marvelpedia.character.CharacterModule;
 import com.empire.android.marvelpedia.characterlist.CharacterListActivity;
 import com.empire.android.marvelpedia.characterlist.CharacterListModule;
 import com.empire.android.marvelpedia.comic.ComicModule;
+import com.empire.android.marvelpedia.comiclist.ComicListActivity;
+import com.empire.android.marvelpedia.comiclist.ComicListModule;
 import com.empire.android.marvelpedia.main.MainActivity;
 import com.empire.android.marvelpedia.main.MainModule;
 import com.empire.android.marvelpedia.serie.SerieModule;
@@ -21,11 +23,13 @@ import dagger.Component;
                 CharacterListModule.class,
                 CharacterModule.class,
                 ComicModule.class,
-                SerieModule.class
+                SerieModule.class,
+                ComicListModule.class
         }
 )
 public interface ApplicationComponent {
     void inject(MainActivity activity);
     void inject(CharacterListActivity activity);
     void inject(CharacterActivity activity);
+    void inject(ComicListActivity activity);
 }
