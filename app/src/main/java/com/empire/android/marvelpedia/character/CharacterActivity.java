@@ -1,5 +1,6 @@
 package com.empire.android.marvelpedia.character;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -13,9 +14,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.empire.android.marvelpedia.App;
+import com.empire.android.marvelpedia.Configs;
 import com.empire.android.marvelpedia.R;
 import com.empire.android.marvelpedia.character.adapter.CharacterComicAdapter;
 import com.empire.android.marvelpedia.character.adapter.CharacterSerieAdapter;
+import com.empire.android.marvelpedia.comiclist.ComicListActivity;
 import com.empire.android.marvelpedia.data.Comic;
 import com.empire.android.marvelpedia.data.Serie;
 import com.squareup.picasso.Picasso;
@@ -54,6 +57,9 @@ public class CharacterActivity extends AppCompatActivity implements CharacterCon
     @BindView(R.id.characterSeriesRecyclerView)
     RecyclerView characterSeriesRecyclerView;
 
+    @BindView(R.id.characterComicSeeAllTextView)
+    TextView characterComicSeeAllTextView;
+
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
@@ -78,6 +84,7 @@ public class CharacterActivity extends AppCompatActivity implements CharacterCon
 
         characterComicsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         characterSeriesRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        characterComicSeeAllTextView.setOnClickListener(view -> presenter.seeAllComicsClicked());
     }
 
     private void setUpInjector() {
@@ -118,8 +125,21 @@ public class CharacterActivity extends AppCompatActivity implements CharacterCon
     }
 
     @Override
+    public void setSeeAllComicsVisible(boolean visible) {
+        if(visible) characterComicSeeAllTextView.setVisibility(View.VISIBLE);
+        else characterComicSeeAllTextView.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
     public void showSeries(List<Serie> serieList) {
         characterSeriesRecyclerView.setAdapter(new CharacterSerieAdapter(getApplicationContext(), this, serieList));
+    }
+
+    @Override
+    public void navigateToComicList(long characterId) {
+        Intent intent = new Intent(this, ComicListActivity.class);
+        intent.putExtra(Configs.ARG_SELECTED_CHARACTER, characterId);
+        startActivity(intent);
     }
 
     @Override
