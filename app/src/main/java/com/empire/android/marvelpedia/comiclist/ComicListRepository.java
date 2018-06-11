@@ -17,6 +17,6 @@ public class ComicListRepository implements ComicListContract.Repository {
     @Override
     public Observable<Comic.JsonResponse> getComics(long characterId, int offset, String searchQuery) {
         ApiAuth apiAuth = new ApiAuth();
-        return marvelApi.getComicsByCharacterId(characterId, 0, ApiAuth.PUBLIC_KEY, apiAuth.getTimestamp(), apiAuth.getHash());
+        return marvelApi.getComicsByCharacterId(characterId, offset, ApiAuth.PUBLIC_KEY, apiAuth.getTimestamp(), apiAuth.getHash());
     }
 }
