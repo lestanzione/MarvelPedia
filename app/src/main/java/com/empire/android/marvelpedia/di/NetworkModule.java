@@ -3,6 +3,8 @@ package com.empire.android.marvelpedia.di;
 import com.empire.android.marvelpedia.api.MarvelApi;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -19,6 +21,8 @@ public class NetworkModule {
     @Singleton
     public OkHttpClient providesOkHttpClient() {
         return new OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();
     }
