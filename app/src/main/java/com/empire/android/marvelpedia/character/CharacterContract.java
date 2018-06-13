@@ -29,6 +29,7 @@ public interface CharacterContract {
 
     interface Repository {
         Observable<Character.JsonResponse> getCharacter(long characterId);
+        Observable<Character.JsonResponse> getCharactersByComicId(long comicId);
     }
 
 }

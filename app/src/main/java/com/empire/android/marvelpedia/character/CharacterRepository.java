@@ -20,4 +20,10 @@ public class CharacterRepository implements CharacterContract.Repository {
         return marvelApi.getCharacterById(characterId, ApiAuth.PUBLIC_KEY, apiAuth.getTimestamp(), apiAuth.getHash());
     }
 
+    @Override
+    public Observable<Character.JsonResponse> getCharactersByComicId(long comicId) {
+        ApiAuth apiAuth = new ApiAuth();
+        return marvelApi.getCharactersByComicId(comicId, 0, ApiAuth.PUBLIC_KEY, apiAuth.getTimestamp(), apiAuth.getHash());
+    }
+
 }

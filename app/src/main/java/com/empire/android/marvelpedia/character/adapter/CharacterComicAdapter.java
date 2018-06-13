@@ -48,7 +48,7 @@ public class CharacterComicAdapter extends RecyclerView.Adapter<CharacterComicAd
 
         String imagePath = currentComic.getImage().getPath() + "." + currentComic.getImage().getExtension();
 
-        Picasso.with(context).load(imagePath).placeholder(ContextCompat.getDrawable(context, R.drawable.placeholder_character_item))
+        Picasso.with(context).load(imagePath).placeholder(ContextCompat.getDrawable(context, R.drawable.placeholder_loading_item))
                 .into(holder.characterComicItemPreviewImageView);
 
         holder.characterComicRelativeLayout.setOnClickListener(view -> listener.onCharacterComicSelected(currentComic));

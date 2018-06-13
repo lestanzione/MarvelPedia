@@ -1,18 +1,22 @@
 package com.empire.android.marvelpedia.comiclist;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.empire.android.marvelpedia.App;
+import com.empire.android.marvelpedia.Configs;
 import com.empire.android.marvelpedia.R;
+import com.empire.android.marvelpedia.comic.ComicActivity;
 import com.empire.android.marvelpedia.comiclist.adapter.ComicListAdapter;
 import com.empire.android.marvelpedia.data.Comic;
 
@@ -114,6 +118,10 @@ public class ComicListActivity extends AppCompatActivity implements ComicListCon
 
     @Override
     public void onComicSelected(Comic comic) {
+        Log.d(TAG, "onComicSelected: name: " + comic.getTitle());
 
+        Intent intent = new Intent(this, ComicActivity.class);
+        intent.putExtra(Configs.ARG_SELECTED_COMIC, comic.getId());
+        startActivity(intent);
     }
 }

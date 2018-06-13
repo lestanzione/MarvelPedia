@@ -21,7 +21,8 @@
         </activity>
         <activity android:name=".characterlist.CharacterListActivity" />
         <activity android:name=".character.CharacterActivity" />
-        <activity android:name=".comiclist.ComicListActivity"></activity>
+        <activity android:name=".comiclist.ComicListActivity" />
+        <activity android:name=".comic.ComicActivity"></activity>
     </application>
 
 </manifest>

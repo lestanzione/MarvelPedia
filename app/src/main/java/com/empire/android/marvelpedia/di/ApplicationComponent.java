@@ -4,6 +4,7 @@ import com.empire.android.marvelpedia.character.CharacterActivity;
 import com.empire.android.marvelpedia.character.CharacterModule;
 import com.empire.android.marvelpedia.characterlist.CharacterListActivity;
 import com.empire.android.marvelpedia.characterlist.CharacterListModule;
+import com.empire.android.marvelpedia.comic.ComicActivity;
 import com.empire.android.marvelpedia.comic.ComicModule;
 import com.empire.android.marvelpedia.comiclist.ComicListActivity;
 import com.empire.android.marvelpedia.comiclist.ComicListModule;
@@ -32,4 +33,5 @@ public interface ApplicationComponent {
     void inject(CharacterListActivity activity);
     void inject(CharacterActivity activity);
     void inject(ComicListActivity activity);
+    void inject(ComicActivity activity);
 }
