@@ -71,49 +71,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="120dp"
-                android:id="@+id/comicSeriesCardView"
-                android:layout_below="@id/comicDescriptionTextView"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                app:cardElevation="5dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <android.support.v7.widget.RecyclerView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/comicSeriesRecyclerView"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="46dp"
-                        android:layout_marginEnd="8dp"/>
-
-                </RelativeLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/comicSeriesLabelTextView"
-                android:text="Series"
-                android:textStyle="bold"
-                android:textSize="14sp"
-                android:background="@drawable/bg_comic_item_title"
-                android:layout_alignTop="@id/comicSeriesCardView"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="8dp"
-                android:padding="8dp"
-                android:elevation="6dp"/>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="120dp"
                 android:id="@+id/comicCharactersCardView"
-                android:layout_below="@id/comicSeriesCardView"
+                android:layout_below="@id/comicDescriptionTextView"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"

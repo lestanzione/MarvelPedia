@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.empire.android.marvelpedia.App;
 import com.empire.android.marvelpedia.R;
+import com.empire.android.marvelpedia.comic.adapter.ComicCharacterAdapter;
+import com.empire.android.marvelpedia.data.Character;
 import com.empire.android.marvelpedia.data.Serie;
 import com.squareup.picasso.Picasso;
 
@@ -26,7 +28,7 @@ import butterknife.ButterKnife;
 
 import static com.empire.android.marvelpedia.Configs.ARG_SELECTED_COMIC;
 
-public class ComicActivity extends AppCompatActivity implements ComicContract.View {
+public class ComicActivity extends AppCompatActivity implements ComicContract.View, ComicCharacterAdapter.ComicCharacterListener {
 
     public static final String TAG = ComicActivity.class.getSimpleName();
 
@@ -44,9 +46,6 @@ public class ComicActivity extends AppCompatActivity implements ComicContract.Vi
 
     @BindView(R.id.comicPreviewImageView)
     ImageView comicPreviewImageView;
-
-    @BindView(R.id.comicSeriesRecyclerView)
-    RecyclerView comicSeriesRecyclerView;
 
     @BindView(R.id.comicCharactersRecyclerView)
     RecyclerView comicCharactersRecyclerView;
@@ -73,7 +72,6 @@ public class ComicActivity extends AppCompatActivity implements ComicContract.Vi
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Comic");
 
-        comicSeriesRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         comicCharactersRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
     }
 
@@ -111,11 +109,11 @@ public class ComicActivity extends AppCompatActivity implements ComicContract.Vi
 
     @Override
     public void showCharacters(List<Character> characterList) {
-
+        comicCharactersRecyclerView.setAdapter(new ComicCharacterAdapter(getApplicationContext(), this, characterList));
     }
 
     @Override
-    public void showSeries(List<Serie> serieList) {
+    public void onComicCharacterSelected(Character character) {
 
     }
 }

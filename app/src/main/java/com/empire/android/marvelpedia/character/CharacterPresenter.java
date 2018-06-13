@@ -55,14 +55,14 @@ public class CharacterPresenter implements CharacterContract.Presenter {
 
                         return Observable.zip(comicRepository.getComicsByCharacterId(character.getId()), serieRepository.getStoriesByCharacterId(character.getId()), new BiFunction<Comic.JsonResponse, Serie.JsonResponse, MarvelApiObject>() {
                             @Override
-                            public MarvelApiObject apply(Comic.JsonResponse comicJsonResponse, Serie.JsonResponse storyJsonResponse) throws Exception {
+                            public MarvelApiObject apply(Comic.JsonResponse comicJsonResponse, Serie.JsonResponse serieJsonResponse) throws Exception {
 
                                 System.out.println("comic jsonresponse: " + comicJsonResponse);
-                                System.out.println("story jsonresponse: " + storyJsonResponse);
+                                System.out.println("serie jsonresponse: " + serieJsonResponse);
 
                                 return new MarvelApiObject.Builder()
                                                             .setComicList(comicJsonResponse.getData().getComicList())
-                                                            .setSerieList(storyJsonResponse.getData().getSerieList())
+                                                            .setSerieList(serieJsonResponse.getData().getSerieList())
                                                             .build();
                             }
                         });
