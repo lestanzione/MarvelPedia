@@ -47,7 +47,7 @@ public class CharacterSerieAdapter extends RecyclerView.Adapter<CharacterSerieAd
 
         String imagePath = currentSerie.getImage().getPath() + "." + currentSerie.getImage().getExtension();
 
-        Picasso.with(context).load(imagePath).placeholder(ContextCompat.getDrawable(context, R.drawable.placeholder_character_item))
+        Picasso.with(context).load(imagePath).placeholder(ContextCompat.getDrawable(context, R.drawable.placeholder_loading_item))
                 .into(holder.characterSerieItemPreviewImageView);
 
         holder.characterSerieRelativeLayout.setOnClickListener(view -> listener.onCharacterStorySelected(currentSerie));

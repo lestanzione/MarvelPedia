@@ -115,7 +115,7 @@ public class CharacterActivity extends AppCompatActivity implements CharacterCon
 
     @Override
     public void setCharacterImage(String imageUrl) {
-        Picasso.with(this).load(imageUrl).placeholder(ContextCompat.getDrawable(this, R.drawable.placeholder_character_item)).into(characterPreviewImageView);
+        Picasso.with(this).load(imageUrl).placeholder(ContextCompat.getDrawable(this, R.drawable.placeholder_loading_item)).into(characterPreviewImageView);
         characterPreviewImageView.setBackgroundColor(Color.TRANSPARENT);
     }
 
