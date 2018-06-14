@@ -15,9 +15,9 @@ public class CharacterListRepository implements CharacterListContract.Repository
     }
 
     @Override
-    public Observable<Character.JsonResponse> getCharacters(int offset, String searchQuery) {
+    public Observable<Character.JsonResponse> getCharacters(int offset, String searchQuery, Long comicId) {
         ApiAuth apiAuth = new ApiAuth();
-        return marvelApi.getCharacters(offset, searchQuery, ApiAuth.PUBLIC_KEY, apiAuth.getTimestamp(), apiAuth.getHash());
+        return marvelApi.getCharacters(offset, comicId, searchQuery, ApiAuth.PUBLIC_KEY, apiAuth.getTimestamp(), apiAuth.getHash());
     }
 
 }

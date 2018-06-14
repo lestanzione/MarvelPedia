@@ -16,11 +16,14 @@ public interface ComicContract {
         void setComicDescription(String description);
         void setComicImage(String imageUrl);
         void showCharacters(List<Character> characterList);
+        void setSeeAllCharactersVisible(boolean visible);
+        void navigateToCharacterList(long comicId);
     }
 
     interface Presenter{
         void attachView(ComicContract.View view);
         void getComicInfo(long comicId);
+        void seeAllCharactersClicked();
     }
 
     interface Repository{

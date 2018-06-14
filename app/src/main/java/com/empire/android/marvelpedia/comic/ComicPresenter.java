@@ -40,6 +40,7 @@ public class ComicPresenter implements ComicContract.Presenter {
     @Override
     public void getComicInfo(long comicId) {
 
+        view.setSeeAllCharactersVisible(false);
         view.setProgressBarVisible(true);
 
         comicRepository.getComicById(comicId)
@@ -81,9 +82,15 @@ public class ComicPresenter implements ComicContract.Presenter {
                         view.setComicImage(imagePath);
 
                         view.showCharacters(characterList);
+                        view.setSeeAllCharactersVisible(true);
                     }
                 });
 
+    }
+
+    @Override
+    public void seeAllCharactersClicked() {
+        view.navigateToCharacterList(comic.getId());
     }
 
 }

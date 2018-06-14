@@ -13,6 +13,7 @@ public interface MarvelApi {
 
     @GET("characters")
     Observable<Character.JsonResponse> getCharacters(@Query("offset") int offset,
+                                                     @Query("comics") Long comicId,
                                                      @Query("nameStartsWith") String nameStartsWith,
                                                      @Query("apikey") String apikey,
                                                      @Query("ts") String timestamp,

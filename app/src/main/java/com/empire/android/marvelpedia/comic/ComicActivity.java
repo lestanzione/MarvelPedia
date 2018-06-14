@@ -1,5 +1,6 @@
 package com.empire.android.marvelpedia.comic;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -13,8 +14,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.empire.android.marvelpedia.App;
+import com.empire.android.marvelpedia.Configs;
 import com.empire.android.marvelpedia.R;
+import com.empire.android.marvelpedia.characterlist.CharacterListActivity;
 import com.empire.android.marvelpedia.comic.adapter.ComicCharacterAdapter;
+import com.empire.android.marvelpedia.comiclist.ComicListActivity;
 import com.empire.android.marvelpedia.data.Character;
 import com.empire.android.marvelpedia.data.Serie;
 import com.squareup.picasso.Picasso;
@@ -50,6 +54,9 @@ public class ComicActivity extends AppCompatActivity implements ComicContract.Vi
     @BindView(R.id.comicCharactersRecyclerView)
     RecyclerView comicCharactersRecyclerView;
 
+    @BindView(R.id.comicCharacterSeeAllTextView)
+    TextView comicCharacterSeeAllTextView;
+
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
@@ -73,6 +80,7 @@ public class ComicActivity extends AppCompatActivity implements ComicContract.Vi
         getSupportActionBar().setTitle("Comic");
 
         comicCharactersRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        comicCharacterSeeAllTextView.setOnClickListener(view -> presenter.seeAllCharactersClicked());
     }
 
     private void setUpInjector() {
@@ -110,6 +118,19 @@ public class ComicActivity extends AppCompatActivity implements ComicContract.Vi
     @Override
     public void showCharacters(List<Character> characterList) {
         comicCharactersRecyclerView.setAdapter(new ComicCharacterAdapter(getApplicationContext(), this, characterList));
+    }
+
+    @Override
+    public void setSeeAllCharactersVisible(boolean visible) {
+        if(visible) comicCharacterSeeAllTextView.setVisibility(View.VISIBLE);
+        else comicCharacterSeeAllTextView.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void navigateToCharacterList(long comicId) {
+        Intent intent = new Intent(this, CharacterListActivity.class);
+        intent.putExtra(Configs.ARG_SELECTED_COMIC, comicId);
+        startActivity(intent);
     }
 
     @Override
