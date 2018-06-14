@@ -25,14 +25,14 @@ public interface MarvelApi {
                                                         @Query("ts") String timestamp,
                                                         @Query("hash") String hash);
 
-    @GET("characters/{characterId}/comics")
+    @GET("characters/{characterId}/comics?orderBy=-issueNumber")
     Observable<Comic.JsonResponse> getComicsByCharacterId(@Path("characterId") long characterId,
                                                           @Query("offset") int offset,
                                                           @Query("apikey") String apikey,
                                                           @Query("ts") String timestamp,
                                                           @Query("hash") String hash);
 
-    @GET("characters/{characterId}/series")
+    @GET("characters/{characterId}/series?orderBy=-modified")
     Observable<Serie.JsonResponse> getSeriesByCharacterId(@Path("characterId") long characterId,
                                                           @Query("apikey") String apikey,
                                                           @Query("ts") String timestamp,

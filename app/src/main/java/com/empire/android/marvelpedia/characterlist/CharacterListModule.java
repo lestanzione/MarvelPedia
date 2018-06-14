@@ -11,7 +11,6 @@ import dagger.Provides;
 public class CharacterListModule {
 
     @Provides
-    @Singleton
     CharacterListContract.Presenter providesPresenter(CharacterListContract.Repository repository){
         CharacterListPresenter presenter = new CharacterListPresenter(repository);
         return presenter;
