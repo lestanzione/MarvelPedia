@@ -34,6 +34,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.empire.android.marvelpedia.Configs.ARG_SELECTED_COMIC;
+
 public class CharacterListActivity extends AppCompatActivity implements CharacterListContract.View, CharacterListAdapter.CharacterListener {
 
     public static final String TAG = CharacterListActivity.class.getSimpleName();
@@ -68,6 +70,11 @@ public class CharacterListActivity extends AppCompatActivity implements Characte
         setUpInjector();
         setUpUi();
 
+        long comicId = getIntent().getLongExtra(ARG_SELECTED_COMIC, 0);
+
+        if(comicId != 0){
+            presenter.setComicId(comicId);
+        }
         presenter.getCharacters();
     }
 

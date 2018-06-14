@@ -22,6 +22,7 @@ public class CharacterListPresenter implements CharacterListContract.Presenter {
     private int currentPage = 1;
     private String searchQuery;
     private boolean isRunning = false;
+    private Long comicId;
 
     public CharacterListPresenter(CharacterListContract.Repository repository){
         this.repository = repository;
@@ -33,6 +34,11 @@ public class CharacterListPresenter implements CharacterListContract.Presenter {
     }
 
     @Override
+    public void setComicId(Long comicId) {
+        this.comicId = comicId;
+    }
+
+    @Override
     public void getCharacters() {
 
         isRunning = true;
@@ -41,7 +47,7 @@ public class CharacterListPresenter implements CharacterListContract.Presenter {
         characterList = new ArrayList<>();
 
         int offset = getOffset(currentPage);
-        Observable<Character.JsonResponse> characters = repository.getCharacters(offset, searchQuery);
+        Observable<Character.JsonResponse> characters = repository.getCharacters(offset, searchQuery, comicId);
 
         characters
                 .subscribeOn(Schedulers.io())
