@@ -62,19 +62,25 @@ public class Serie {
     public class JsonResponse {
 
         @SerializedName("data")
+        private
         Data data;
 
         public Data getData(){
             return data;
         }
 
+        public void setData(Data data) {
+            this.data = data;
+        }
     }
 
     public class Data {
 
         @SerializedName("total")
+        private
         int total;
         @SerializedName("results")
+        private
         List<Serie> serieList;
 
         public int getTotal(){
@@ -85,5 +91,12 @@ public class Serie {
             return serieList;
         }
 
+        public void setTotal(int total) {
+            this.total = total;
+        }
+
+        public void setSerieList(List<Serie> serieList) {
+            this.serieList = serieList;
+        }
     }
 }
