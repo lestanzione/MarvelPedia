@@ -13,11 +13,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.BiFunction;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class CharacterPresenter implements CharacterContract.Presenter {
@@ -49,63 +45,61 @@ public class CharacterPresenter implements CharacterContract.Presenter {
         view.setProgressBarVisible(true);
 
         characterRepository.getCharacter(characterId)
-                .flatMap(new Function<Character.JsonResponse, ObservableSource<MarvelApiObject>>() {
-                    @Override
-                    public ObservableSource<MarvelApiObject> apply(Character.JsonResponse jsonResponse) throws Exception {
-
-                        character = jsonResponse.getData().getCharacterList().get(0);
-
-                        return Observable.zip(comicRepository.getComicsByCharacterId(character.getId()), serieRepository.getStoriesByCharacterId(character.getId()), new BiFunction<Comic.JsonResponse, Serie.JsonResponse, MarvelApiObject>() {
-                            @Override
-                            public MarvelApiObject apply(Comic.JsonResponse comicJsonResponse, Serie.JsonResponse serieJsonResponse) throws Exception {
-
-                                System.out.println("comic jsonresponse: " + comicJsonResponse);
-                                System.out.println("serie jsonresponse: " + serieJsonResponse);
-
-                                return new MarvelApiObject.Builder()
-                                                            .setComicList(comicJsonResponse.getData().getComicList())
-                                                            .setSerieList(serieJsonResponse.getData().getSerieList())
-                                                            .build();
-                            }
-                        });
-
-                    }
-                })
+                .flatMap(this::mapToMarvelApiObject)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<MarvelApiObject>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+                .subscribe(
+                        this::onReceiveMarvelApiObject,
+                        this::onError
+                );
 
-                    }
+    }
 
-                    @Override
-                    public void onNext(MarvelApiObject marvelApiObject) {
-                        System.out.println("onNext: " + marvelApiObject);
-                        comicList = marvelApiObject.getComicList();
-                        serieList = marvelApiObject.getSerieList();
-                    }
+    private ObservableSource<MarvelApiObject> mapToMarvelApiObject(Character.JsonResponse jsonResponse){
 
-                    @Override
-                    public void onError(Throwable e) {
-                        view.setProgressBarVisible(false);
-                    }
+        character = jsonResponse.getData().getCharacterList().get(0);
 
-                    @Override
-                    public void onComplete() {
-                        view.setProgressBarVisible(false);
-                        view.setCharacterName(character.getName());
-                        view.setCharacterDescription(character.getDescription());
+        return Observable.zip(comicRepository.getComicsByCharacterId(character.getId()),
+                                serieRepository.getStoriesByCharacterId(character.getId()),
+                                this::createMarvelApiObject
+                            );
 
-                        String imagePath = character.getImage().getPath() + "." + character.getImage().getExtension();
-                        view.setCharacterImage(imagePath);
+    }
 
-                        view.showComics(comicList);
-                        view.showSeries(serieList);
-                        view.setSeeAllComicsVisible(true);
-                    }
-                });
+    private MarvelApiObject createMarvelApiObject(Comic.JsonResponse comicJsonResponse, Serie.JsonResponse serieJsonResponse){
 
+        System.out.println("comic jsonresponse: " + comicJsonResponse);
+        System.out.println("serie jsonresponse: " + serieJsonResponse);
+
+        return new MarvelApiObject.Builder()
+                .setComicList(comicJsonResponse.getData().getComicList())
+                .setSerieList(serieJsonResponse.getData().getSerieList())
+                .build();
+
+    }
+
+    private void onReceiveMarvelApiObject(MarvelApiObject marvelApiObject) {
+
+        System.out.println("onReceiveMarvelApiObject: " + marvelApiObject);
+        comicList = marvelApiObject.getComicList();
+        serieList = marvelApiObject.getSerieList();
+
+        view.setProgressBarVisible(false);
+        view.setCharacterName(character.getName());
+        view.setCharacterDescription(character.getDescription());
+
+        String imagePath = character.getImage().getPath() + "." + character.getImage().getExtension();
+        view.setCharacterImage(imagePath);
+
+        view.showComics(comicList);
+        view.showSeries(serieList);
+        view.setSeeAllComicsVisible(true);
+
+    }
+
+    private void onError(Throwable error) {
+        System.out.println(error.getMessage());
+        view.setProgressBarVisible(false);
     }
 
     @Override

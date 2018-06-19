@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class ComicListPresenter implements ComicListContract.Presenter {
@@ -54,42 +52,34 @@ public class ComicListPresenter implements ComicListContract.Presenter {
         comics
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Comic.JsonResponse>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+                .subscribe(
+                        this::onReceiveComicResponse,
+                        this::onError
+                );
 
-                    }
+    }
 
-                    @Override
-                    public void onNext(Comic.JsonResponse s) {
-                        System.out.println("onNext: " + s);
+    private void onReceiveComicResponse(Comic.JsonResponse jsonResponse){
+        System.out.println("onReceiveComicResponse: " + jsonResponse);
 
-                        totalPages = (int) Math.ceil(s.getData().getTotal() / Float.valueOf(dataPerPage));
-                        comicList = s.getData().getComicList();
+        totalPages = (int) Math.ceil(jsonResponse.getData().getTotal() / Float.valueOf(dataPerPage));
+        comicList = jsonResponse.getData().getComicList();
 
-                        System.out.println("s.getTotal: " + s.getData().getTotal());
-                        System.out.println("dataPerPage: " + dataPerPage);
-                    }
+        System.out.println("jsonResponse.getTotal: " + jsonResponse.getData().getTotal());
+        System.out.println("dataPerPage: " + dataPerPage);
 
-                    @Override
-                    public void onError(Throwable e) {
-                        System.out.println("onError: " + e);
-                        isRunning = false;
-                        view.setProgressBarVisible(false);
-                    }
+        isRunning = false;
+        view.showList(comicList);
+        view.setPagesText(currentPage, totalPages);
+        view.setProgressBarVisible(false);
+        handleButtonsState();
 
-                    @Override
-                    public void onComplete() {
-                        System.out.println("onComplete");
+    }
 
-                        isRunning = false;
-                        view.showList(comicList);
-                        view.setPagesText(currentPage, totalPages);
-                        view.setProgressBarVisible(false);
-                        handleButtonsState();
-                    }
-                });
-
+    private void onError(Throwable error) {
+        System.out.println(error.getMessage());
+        isRunning = false;
+        view.setProgressBarVisible(false);
     }
 
     @Override

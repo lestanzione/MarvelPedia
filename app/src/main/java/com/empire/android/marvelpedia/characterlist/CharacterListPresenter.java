@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class CharacterListPresenter implements CharacterListContract.Presenter {
@@ -54,42 +52,33 @@ public class CharacterListPresenter implements CharacterListContract.Presenter {
         characters
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Character.JsonResponse>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+                .subscribe(
+                        this::onReceiveCharacterResponse,
+                        this::onError);
 
-                    }
+    }
 
-                    @Override
-                    public void onNext(Character.JsonResponse s) {
-                        System.out.println("onNext: " + s);
+    private void onReceiveCharacterResponse(Character.JsonResponse jsonResponse) {
+        System.out.println("onReceiveCharacterResponse: " + jsonResponse);
 
-                        totalPages = (int) Math.ceil(s.getData().getTotal() / Float.valueOf(dataPerPage));
-                        characterList = s.getData().getCharacterList();
+        totalPages = (int) Math.ceil(jsonResponse.getData().getTotal() / Float.valueOf(dataPerPage));
+        characterList = jsonResponse.getData().getCharacterList();
 
-                        System.out.println("s.getTotal: " + s.getData().getTotal());
-                        System.out.println("dataPerPage: " + dataPerPage);
-                    }
+        System.out.println("jsonResponse.getTotal: " + jsonResponse.getData().getTotal());
+        System.out.println("dataPerPage: " + dataPerPage);
 
-                    @Override
-                    public void onError(Throwable e) {
-                        System.out.println("onError: " + e);
-                        isRunning = false;
-                        view.setProgressBarVisible(false);
-                    }
+        isRunning = false;
+        view.showList(characterList);
+        view.setPagesText(currentPage, totalPages);
+        view.setProgressBarVisible(false);
+        handleButtonsState();
 
-                    @Override
-                    public void onComplete() {
-                        System.out.println("onComplete");
+    }
 
-                        isRunning = false;
-                        view.showList(characterList);
-                        view.setPagesText(currentPage, totalPages);
-                        view.setProgressBarVisible(false);
-                        handleButtonsState();
-                    }
-                });
-
+    private void onError(Throwable error){
+        System.out.println(error.getMessage());
+        isRunning = false;
+        view.setProgressBarVisible(false);
     }
 
     @Override

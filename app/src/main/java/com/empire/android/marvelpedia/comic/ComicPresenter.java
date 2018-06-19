@@ -5,19 +5,11 @@ import android.support.annotation.VisibleForTesting;
 import com.empire.android.marvelpedia.character.CharacterContract;
 import com.empire.android.marvelpedia.data.Character;
 import com.empire.android.marvelpedia.data.Comic;
-import com.empire.android.marvelpedia.data.MarvelApiObject;
-import com.empire.android.marvelpedia.data.Serie;
-import com.empire.android.marvelpedia.serie.SerieContract;
 
 import java.util.List;
 
-import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.BiFunction;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class ComicPresenter implements ComicContract.Presenter {
@@ -46,48 +38,42 @@ public class ComicPresenter implements ComicContract.Presenter {
         view.setProgressBarVisible(true);
 
         comicRepository.getComicById(comicId)
-                .flatMap(new Function<Comic.JsonResponse, ObservableSource<Character.JsonResponse>>() {
-                    @Override
-                    public ObservableSource<Character.JsonResponse> apply(Comic.JsonResponse jsonResponse) throws Exception {
-
-                        comic = jsonResponse.getData().getComicList().get(0);
-
-                        return characterRepository.getCharactersByComicId(comic.getId());
-                    }
-                })
+                .flatMap(this::mapToCharacterList)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Character.JsonResponse>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+                .subscribe(
+                        this::onReceiveCharacterResponse,
+                        this::onError
+                );
 
-                    }
+    }
 
-                    @Override
-                    public void onNext(Character.JsonResponse jsonResponse) {
-                        System.out.println("onNext: " + jsonResponse);
-                        characterList = jsonResponse.getData().getCharacterList();
-                    }
+    private ObservableSource<Character.JsonResponse> mapToCharacterList(Comic.JsonResponse jsonResponse) {
 
-                    @Override
-                    public void onError(Throwable e) {
-                        view.setProgressBarVisible(false);
-                    }
+        comic = jsonResponse.getData().getComicList().get(0);
 
-                    @Override
-                    public void onComplete() {
-                        view.setProgressBarVisible(false);
-                        view.setComicName(comic.getTitle());
-                        view.setComicDescription(comic.getDescription());
+        return characterRepository.getCharactersByComicId(comic.getId());
+    }
 
-                        String imagePath = comic.getImage().getPath() + "." + comic.getImage().getExtension();
-                        view.setComicImage(imagePath);
+    private void onReceiveCharacterResponse(Character.JsonResponse jsonResponse) {
 
-                        view.showCharacters(characterList);
-                        view.setSeeAllCharactersVisible(true);
-                    }
-                });
+        System.out.println("onReceiveCharacterResponse: " + jsonResponse);
+        characterList = jsonResponse.getData().getCharacterList();
 
+        view.setProgressBarVisible(false);
+        view.setComicName(comic.getTitle());
+        view.setComicDescription(comic.getDescription());
+
+        String imagePath = comic.getImage().getPath() + "." + comic.getImage().getExtension();
+        view.setComicImage(imagePath);
+
+        view.showCharacters(characterList);
+        view.setSeeAllCharactersVisible(true);
+    }
+
+    private void onError(Throwable error) {
+        System.out.println(error.getMessage());
+        view.setProgressBarVisible(false);
     }
 
     @Override
