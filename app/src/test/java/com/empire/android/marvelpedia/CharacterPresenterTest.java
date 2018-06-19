@@ -35,15 +35,16 @@ import static org.mockito.Mockito.when;
 
 public class CharacterPresenterTest {
 
-    CharacterContract.View mockView;
-    CharacterContract.Repository mockCharacterRepository;
-    ComicContract.Repository mockComicRepository;
-    SerieContract.Repository mockSerieRepository;
-    CharacterPresenter presenter;
+    private CharacterContract.View mockView;
+    private CharacterContract.Repository mockCharacterRepository;
+    private ComicContract.Repository mockComicRepository;
+    private SerieContract.Repository mockSerieRepository;
+    private CharacterPresenter presenter;
 
-    Character.JsonResponse defaultJsonResponse;
-    Comic.JsonResponse defaultComicJsonResponse;
-    Serie.JsonResponse defaultSerieJsonResponse;
+    private Character defaultCharacter;
+    private Character.JsonResponse defaultJsonResponse;
+    private Comic.JsonResponse defaultComicJsonResponse;
+    private Serie.JsonResponse defaultSerieJsonResponse;
 
     @BeforeClass
     public static void setupRxSchedulers() {
@@ -80,6 +81,7 @@ public class CharacterPresenterTest {
         presenter = new CharacterPresenter(mockCharacterRepository, mockComicRepository, mockSerieRepository);
         presenter.attachView(mockView);
 
+        createCharacter();
         createCharacterJsonResponse();
         createComicJsonResponse();
         createSerieJsonResponse();
@@ -89,6 +91,13 @@ public class CharacterPresenterTest {
     public static void tearDownRxSchedulers(){
         RxJavaPlugins.reset();
         RxAndroidPlugins.reset();
+    }
+
+    private void createCharacter(){
+
+        defaultCharacter = new Character();
+        defaultCharacter.setId(1L);
+
     }
 
     private void createCharacterJsonResponse(){
@@ -182,6 +191,15 @@ public class CharacterPresenterTest {
         verify(mockView, times(1)).setSeeAllComicsVisible(false);
         verify(mockView, times(1)).setProgressBarVisible(true);
         verify(mockView, times(1)).setProgressBarVisible(false);
+
+    }
+
+    @Test
+    public void seeAllComicsClickedShouldNavigateToActivity(){
+
+        presenter.setCharacter(defaultCharacter);
+        presenter.seeAllComicsClicked();
+        verify(mockView, times(1)).navigateToComicList(defaultCharacter.getId());
 
     }
 

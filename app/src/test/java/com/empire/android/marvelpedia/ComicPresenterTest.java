@@ -1,13 +1,11 @@
 package com.empire.android.marvelpedia;
 
 import com.empire.android.marvelpedia.character.CharacterContract;
-import com.empire.android.marvelpedia.character.CharacterPresenter;
 import com.empire.android.marvelpedia.comic.ComicContract;
 import com.empire.android.marvelpedia.comic.ComicPresenter;
 import com.empire.android.marvelpedia.data.Character;
 import com.empire.android.marvelpedia.data.Comic;
 import com.empire.android.marvelpedia.data.Image;
-import com.empire.android.marvelpedia.serie.SerieContract;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -35,13 +33,14 @@ import static org.mockito.Mockito.when;
 
 public class ComicPresenterTest {
 
-    ComicContract.View mockView;
-    ComicContract.Repository mockComicRepository;
-    CharacterContract.Repository mockCharacterRepository;
-    ComicPresenter presenter;
+    private ComicContract.View mockView;
+    private ComicContract.Repository mockComicRepository;
+    private CharacterContract.Repository mockCharacterRepository;
+    private ComicPresenter presenter;
 
-    Comic.JsonResponse defaultComicJsonResponse;
-    Character.JsonResponse defaultCharacterJsonResponse;
+    private Comic defaultComic;
+    private Comic.JsonResponse defaultComicJsonResponse;
+    private Character.JsonResponse defaultCharacterJsonResponse;
 
     @BeforeClass
     public static void setupRxSchedulers() {
@@ -77,6 +76,7 @@ public class ComicPresenterTest {
         presenter = new ComicPresenter(mockComicRepository, mockCharacterRepository);
         presenter.attachView(mockView);
 
+        createComic();
         createCharacterJsonResponse();
         createComicJsonResponse();
     }
@@ -85,6 +85,13 @@ public class ComicPresenterTest {
     public static void tearDownRxSchedulers(){
         RxJavaPlugins.reset();
         RxAndroidPlugins.reset();
+    }
+
+    private void createComic(){
+
+        defaultComic = new Comic();
+        defaultComic.setId(1L);
+
     }
 
     private void createCharacterJsonResponse(){
@@ -159,6 +166,15 @@ public class ComicPresenterTest {
         verify(mockView, times(1)).setSeeAllCharactersVisible(false);
         verify(mockView, times(1)).setProgressBarVisible(true);
         verify(mockView, times(1)).setProgressBarVisible(false);
+
+    }
+
+    @Test
+    public void seeAllCharactersClickedShouldNavigateToActivity(){
+
+        presenter.setComic(defaultComic);
+        presenter.seeAllCharactersClicked();
+        verify(mockView, times(1)).navigateToCharacterList(defaultComic.getId());
 
     }
 

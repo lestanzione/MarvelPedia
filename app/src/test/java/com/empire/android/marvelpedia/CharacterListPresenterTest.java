@@ -20,6 +20,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.internal.schedulers.ExecutorScheduler;
 import io.reactivex.plugins.RxJavaPlugins;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
@@ -33,13 +34,14 @@ import static org.mockito.Mockito.when;
 
 public class CharacterListPresenterTest {
 
-    CharacterListContract.View mockView;
-    CharacterListContract.Repository mockRepository;
-    CharacterListPresenter presenter;
+    private CharacterListContract.View mockView;
+    private CharacterListContract.Repository mockRepository;
+    private CharacterListPresenter presenter;
 
-    Character.JsonResponse defaultJsonResponse;
-    String defaultQuery = "defaultQuery";
-    Long defaultComicId = 1L;
+    private Character.JsonResponse defaultJsonResponse;
+    private String defaultQuery = "defaultQuery";
+    private Long defaultComicId = 1L;
+    private int defaultCurrentPage = 3;
 
     @BeforeClass
     public static void setupRxSchedulers() {
@@ -179,6 +181,82 @@ public class CharacterListPresenterTest {
 
         verify(mockView, times(1)).setProgressBarVisible(true);
         verify(mockView, times(1)).setProgressBarVisible(false);
+
+    }
+
+    @Test
+    public void nextPageClickedShouldAddPageAndGetCharacters(){
+
+        when(mockRepository.getCharacters(anyInt(), isNull(), isNull())).thenReturn(Observable.just(defaultJsonResponse));
+
+        presenter.setCurrentPage(defaultCurrentPage);
+        assertEquals(defaultCurrentPage, presenter.getCurrentPage());
+
+        presenter.nextPageButtonClicked();
+        assertEquals(defaultCurrentPage+1, presenter.getCurrentPage());
+
+    }
+
+    @Test
+    public void nextPageClickedWhenRunningShouldIgnore(){
+
+        presenter.setIsRunning(true);
+
+        presenter.setCurrentPage(defaultCurrentPage);
+        assertEquals(defaultCurrentPage, presenter.getCurrentPage());
+
+        presenter.nextPageButtonClicked();
+        assertEquals(defaultCurrentPage, presenter.getCurrentPage());
+
+    }
+
+    @Test
+    public void previousPageClickedShouldSubtractPageAndGetCharacters(){
+
+        when(mockRepository.getCharacters(anyInt(), isNull(), isNull())).thenReturn(Observable.just(defaultJsonResponse));
+
+        presenter.setCurrentPage(defaultCurrentPage);
+        assertEquals(defaultCurrentPage, presenter.getCurrentPage());
+
+        presenter.previousPageButtonClicked();
+        assertEquals(defaultCurrentPage-1, presenter.getCurrentPage());
+
+    }
+
+    @Test
+    public void previousPageClickedWhenRunningShouldIgnore(){
+
+        presenter.setIsRunning(true);
+
+        presenter.setCurrentPage(defaultCurrentPage);
+        assertEquals(defaultCurrentPage, presenter.getCurrentPage());
+
+        presenter.previousPageButtonClicked();
+        assertEquals(defaultCurrentPage, presenter.getCurrentPage());
+
+    }
+
+    @Test
+    public void resetPageNumberShouldReset(){
+
+        presenter.setCurrentPage(defaultCurrentPage);
+        assertEquals(defaultCurrentPage, presenter.getCurrentPage());
+
+        presenter.resetPageNumber();
+        assertEquals(1, presenter.getCurrentPage());
+
+    }
+
+    @Test
+    public void getOffsetShouldCalculateOffset(){
+
+        presenter.setCurrentPage(defaultCurrentPage);
+        presenter.setDataPerPage(20);
+
+        assertEquals(40, presenter.getOffset(presenter.getCurrentPage()));
+
+        presenter.resetPageNumber();
+        assertEquals(0, presenter.getOffset(presenter.getCurrentPage()));
 
     }
 

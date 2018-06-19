@@ -1,5 +1,7 @@
 package com.empire.android.marvelpedia.comiclist;
 
+import android.support.annotation.VisibleForTesting;
+
 import com.empire.android.marvelpedia.data.Comic;
 
 import java.util.ArrayList;
@@ -116,7 +118,7 @@ public class ComicListPresenter implements ComicListContract.Presenter {
         this.searchQuery = searchQuery;
     }
 
-    private int getOffset(int page){
+    public int getOffset(int page){
         return page * dataPerPage - dataPerPage;
     }
 
@@ -134,6 +136,26 @@ public class ComicListPresenter implements ComicListContract.Presenter {
         else{
             view.setNextButtonEnable(true);
         }
+    }
+
+    @VisibleForTesting
+    public int getCurrentPage(){
+        return currentPage;
+    }
+
+    @VisibleForTesting
+    public void setCurrentPage(int currentPage){
+        this.currentPage = currentPage;
+    }
+
+    @VisibleForTesting
+    public void setDataPerPage(int dataPerPage){
+        this.dataPerPage = dataPerPage;
+    }
+
+    @VisibleForTesting
+    public void setIsRunning(boolean isRunning){
+        this.isRunning = isRunning;
     }
 
 }

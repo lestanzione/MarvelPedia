@@ -1,5 +1,7 @@
 package com.empire.android.marvelpedia.comic;
 
+import android.support.annotation.VisibleForTesting;
+
 import com.empire.android.marvelpedia.character.CharacterContract;
 import com.empire.android.marvelpedia.data.Character;
 import com.empire.android.marvelpedia.data.Comic;
@@ -91,6 +93,11 @@ public class ComicPresenter implements ComicContract.Presenter {
     @Override
     public void seeAllCharactersClicked() {
         view.navigateToCharacterList(comic.getId());
+    }
+
+    @VisibleForTesting
+    public void setComic(Comic comic){
+        this.comic = comic;
     }
 
 }
