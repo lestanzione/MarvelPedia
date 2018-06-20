@@ -66,7 +66,9 @@ public class ComicListActivity extends AppCompatActivity implements ComicListCon
 
         long characterId = getIntent().getLongExtra(ARG_SELECTED_CHARACTER, 0);
 
-        presenter.setCharacterId(characterId);
+        if(characterId != 0) {
+            presenter.setCharacterId(characterId);
+        }
         presenter.getComics();
     }
 

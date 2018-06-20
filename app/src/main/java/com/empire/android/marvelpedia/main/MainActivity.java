@@ -11,6 +11,7 @@ import android.util.Log;
 import com.empire.android.marvelpedia.App;
 import com.empire.android.marvelpedia.R;
 import com.empire.android.marvelpedia.characterlist.CharacterListActivity;
+import com.empire.android.marvelpedia.comiclist.ComicListActivity;
 import com.empire.android.marvelpedia.main.adapter.MainOptionsAdapter;
 
 import javax.inject.Inject;
@@ -32,7 +33,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     RecyclerView mainOptionsRecyclerView;
 
     private String[] mainOptionTexts = {
-            "Characters"
+            "Characters",
+            "Comics"
     };
 
     @Override
@@ -71,6 +73,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         switch (position){
             case 0:
                 intent = new Intent(this, CharacterListActivity.class);
+                break;
+            case 1:
+                intent = new Intent(this, ComicListActivity.class);
                 break;
             default:
                 intent = new Intent(this, CharacterListActivity.class);

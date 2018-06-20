@@ -18,7 +18,7 @@ public interface ComicListContract {
 
     interface Presenter {
         void attachView(ComicListContract.View view);
-        void setCharacterId(long characterId);
+        void setCharacterId(Long characterId);
         void getComics();
         void nextPageButtonClicked();
         void previousPageButtonClicked();
@@ -27,7 +27,7 @@ public interface ComicListContract {
     }
 
     interface Repository{
-        Observable<Comic.JsonResponse> getComics(long characterId, int offset, String searchQuery);
+        Observable<Comic.JsonResponse> getComics(int offset, String searchQuery, Long characterId);
     }
 
 }

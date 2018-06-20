@@ -40,6 +40,7 @@ public class ComicListPresenterTest {
 
     private Comic.JsonResponse defaultJsonResponse;
     private String defaultQuery = "defaultQuery";
+    private Long defaultCharacterId = 1L;
     private int defaultCurrentPage = 3;
 
     @BeforeClass
@@ -102,9 +103,9 @@ public class ComicListPresenterTest {
     }
 
     @Test
-    public void noQueryShouldShowComics(){
+    public void noQueryAndNoCharacterIdShouldShowComics(){
 
-        when(mockRepository.getComics(anyLong(), anyInt(), isNull())).thenReturn(Observable.just(defaultJsonResponse));
+        when(mockRepository.getComics(anyInt(), isNull(), isNull())).thenReturn(Observable.just(defaultJsonResponse));
 
         presenter.getComics();
 
@@ -118,10 +119,45 @@ public class ComicListPresenterTest {
     }
 
     @Test
-    public void withQueryShouldShowComics(){
+    public void withQueryAndNoCharacterIdShouldShowComics(){
 
-        when(mockRepository.getComics(anyLong(), anyInt(), anyString())).thenReturn(Observable.just(defaultJsonResponse));
+        when(mockRepository.getComics(anyInt(), anyString(), isNull())).thenReturn(Observable.just(defaultJsonResponse));
 
+        presenter.setSearchQuery(defaultQuery);
+        presenter.getComics();
+
+        verify(mockView, times(1)).setProgressBarVisible(true);
+        verify(mockView, times(1)).showList(anyList());
+        verify(mockView, times(1)).setPagesText(anyInt(), anyInt());
+        verify(mockView, times(1)).setProgressBarVisible(false);
+        verify(mockView, times(1)).setPreviousButtonEnable(anyBoolean());
+        verify(mockView, times(1)).setNextButtonEnable(anyBoolean());
+
+    }
+
+    @Test
+    public void noQueryAndWithCharacterIdShouldShowComics(){
+
+        when(mockRepository.getComics(anyInt(), isNull(), anyLong())).thenReturn(Observable.just(defaultJsonResponse));
+
+        presenter.setCharacterId(defaultCharacterId);
+        presenter.getComics();
+
+        verify(mockView, times(1)).setProgressBarVisible(true);
+        verify(mockView, times(1)).showList(anyList());
+        verify(mockView, times(1)).setPagesText(anyInt(), anyInt());
+        verify(mockView, times(1)).setProgressBarVisible(false);
+        verify(mockView, times(1)).setPreviousButtonEnable(anyBoolean());
+        verify(mockView, times(1)).setNextButtonEnable(anyBoolean());
+
+    }
+
+    @Test
+    public void withQueryAndWithCharacterIdShouldShowComics(){
+
+        when(mockRepository.getComics(anyInt(), anyString(), anyLong())).thenReturn(Observable.just(defaultJsonResponse));
+
+        presenter.setCharacterId(defaultCharacterId);
         presenter.setSearchQuery(defaultQuery);
         presenter.getComics();
 
@@ -137,8 +173,9 @@ public class ComicListPresenterTest {
     @Test
     public void withErrorShouldHandle(){
 
-        when(mockRepository.getComics(anyLong(), anyInt(), anyString())).thenReturn(Observable.error(new Exception()));
+        when(mockRepository.getComics(anyInt(), anyString(), anyLong())).thenReturn(Observable.error(new Exception()));
 
+        presenter.setCharacterId(defaultCharacterId);
         presenter.setSearchQuery(defaultQuery);
         presenter.getComics();
 
@@ -150,7 +187,7 @@ public class ComicListPresenterTest {
     @Test
     public void nextPageClickedShouldAddPageAndGetComics(){
 
-        when(mockRepository.getComics(anyLong(), anyInt(), isNull())).thenReturn(Observable.just(defaultJsonResponse));
+        when(mockRepository.getComics(anyInt(), isNull(), isNull())).thenReturn(Observable.just(defaultJsonResponse));
 
         presenter.setCurrentPage(defaultCurrentPage);
         assertEquals(defaultCurrentPage, presenter.getCurrentPage());
@@ -176,7 +213,7 @@ public class ComicListPresenterTest {
     @Test
     public void previousPageClickedShouldSubtractPageAndGetCharacters(){
 
-        when(mockRepository.getComics(anyLong(), anyInt(), isNull())).thenReturn(Observable.just(defaultJsonResponse));
+        when(mockRepository.getComics(anyInt(), isNull(), isNull())).thenReturn(Observable.just(defaultJsonResponse));
 
         presenter.setCurrentPage(defaultCurrentPage);
         assertEquals(defaultCurrentPage, presenter.getCurrentPage());
