@@ -1,5 +1,7 @@
 package com.empire.android.marvelpedia.main.adapter;
 
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +21,16 @@ public class MainOptionsAdapter extends RecyclerView.Adapter<MainOptionsAdapter.
         void onMainOptionSelected(int position);
     }
 
+    private Context context;
     private MainOptionListener listener;
     private String[] mainOptionList;
+    private int[] mainOptionIconIdList;
 
-    public MainOptionsAdapter(MainOptionListener listener, String[] mainOptionList){
+    public MainOptionsAdapter(Context context, MainOptionListener listener, String[] mainOptionList, int[] mainOptionIconIdList){
+        this.context = context;
         this.listener = listener;
         this.mainOptionList = mainOptionList;
+        this.mainOptionIconIdList = mainOptionIconIdList;
     }
 
     @Override
@@ -40,6 +46,7 @@ public class MainOptionsAdapter extends RecyclerView.Adapter<MainOptionsAdapter.
         final int optionPosition = position;
 
         holder.mainOptionItemTitleTextView.setText(currentOption);
+        holder.mainOptionItemImageView.setImageDrawable(ContextCompat.getDrawable(context, mainOptionIconIdList[position]));
 
         holder.mainOptionItemRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override

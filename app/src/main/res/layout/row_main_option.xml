@@ -19,7 +19,7 @@
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:id="@+id/mainOptionItemImageView"
-                android:src="@android:drawable/ic_menu_gallery"
+                android:src="@drawable/ic_character_64_64"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="48dp"/>
 

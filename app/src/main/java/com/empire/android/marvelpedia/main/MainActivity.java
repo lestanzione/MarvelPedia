@@ -32,6 +32,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @BindView(R.id.mainOptionsRecyclerView)
     RecyclerView mainOptionsRecyclerView;
 
+    private int[] mainOptionIconIdList = {
+            R.drawable.ic_character_64_64,
+            R.drawable.ic_comic_64_64
+    };
+
     private String[] mainOptionTexts = {
             "Characters",
             "Comics"
@@ -53,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         getSupportActionBar().setTitle("MarvelPedia");
 
         mainOptionsRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        mainOptionsRecyclerView.setAdapter(new MainOptionsAdapter(this, mainOptionTexts));
+        mainOptionsRecyclerView.setAdapter(new MainOptionsAdapter(this, this, mainOptionTexts, mainOptionIconIdList));
     }
 
     private void setUpInjector() {
