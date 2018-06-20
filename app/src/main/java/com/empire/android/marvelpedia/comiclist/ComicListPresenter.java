@@ -16,7 +16,7 @@ public class ComicListPresenter implements ComicListContract.Presenter {
     private ComicListContract.View view;
     private ComicListContract.Repository repository;
 
-    private long characterId;
+    private Long characterId;
     private List<Comic> comicList;
     private int totalPages;
     private int dataPerPage = 20;
@@ -34,7 +34,7 @@ public class ComicListPresenter implements ComicListContract.Presenter {
     }
 
     @Override
-    public void setCharacterId(long characterId) {
+    public void setCharacterId(Long characterId) {
         this.characterId = characterId;
     }
 
@@ -47,7 +47,7 @@ public class ComicListPresenter implements ComicListContract.Presenter {
         comicList = new ArrayList<>();
 
         int offset = getOffset(currentPage);
-        Observable<Comic.JsonResponse> comics = repository.getComics(characterId, offset, searchQuery);
+        Observable<Comic.JsonResponse> comics = repository.getComics(offset, searchQuery, characterId);
 
         comics
                 .subscribeOn(Schedulers.io())
