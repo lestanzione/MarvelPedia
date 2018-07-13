@@ -1,6 +1,7 @@
 package com.empire.android.marvelpedia;
 
 import android.app.Application;
+import android.support.annotation.VisibleForTesting;
 
 import com.empire.android.marvelpedia.character.CharacterModule;
 import com.empire.android.marvelpedia.characterlist.CharacterListModule;
@@ -31,6 +32,11 @@ public class App extends Application {
 
     public ApplicationComponent getApplicationComponent() {
         return applicationComponent;
+    }
+
+    @VisibleForTesting
+    public void setApplicationComponent(ApplicationComponent applicationComponent) {
+        this.applicationComponent = applicationComponent;
     }
 
 }
